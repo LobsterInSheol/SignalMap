@@ -1,0 +1,68 @@
+## bildowanie paczki po commicie na branch
+trigger:
+  branches:
+    include:
+      - functionapp
+  ### tu dodawajcie sobie branche, na tych dzałacie w celu testów, podczas commita to wtedy zbuduje wam paczkę
+  paths:
+    include:
+      - functions/*
+## pull request też na maina
+pr:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - functions/*
+
+pool:
+  name: 'Win_LAP'
+
+variables:
+  PYTHON_VERSION: '3.10'
+
+steps:
+- powershell: |
+    $ErrorActionPreference = 'Stop'
+    Write-Host "Check Python"
+    $python = Get-Command python -ErrorAction SilentlyContinue
+
+    if ($null -eq $python) {
+        & winget install -e --id Python.Python.3.10 --accept-package-agreements --accept-source-agreements
+        if ($LASTEXITCODE -ne 0) {
+          Write-Error "Python install failed (exit code: $LASTEXITCODE)."
+          exit $LASTEXITCODE
+        }
+        $machinePath = [System.Environment]::GetEnvironmentVariable('PATH','Machine')
+        $userPath    = [System.Environment]::GetEnvironmentVariable('PATH','User')
+        $env:PATH    = "$machinePath;$userPath"
+    } else {
+        $version = & python --version
+        Write-Host "Python found: $version"
+    }
+
+    $pyCmd = Get-Command python -ErrorAction SilentlyContinue
+    $pyPath = if ($pyCmd) { $pyCmd.Path } else { $null }
+    Write-Host "Using python at: $pyPath"
+
+  displayName: 'Check python installation'
+
+
+- script: python --version
+  displayName: 'Check python version'
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(System.DefaultWorkingDirectory)/functions'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/functionapp-$(Build.BuildId).zip'
+    replaceExistingArchive: true
+
+- task: PublishPipelineArtifact@1
+  displayName: 'Publish ZIP as Pipeline Artifact'
+  inputs:
+    targetPath: '$(Build.ArtifactStagingDirectory)'
+    artifact: 'functionapp'
+

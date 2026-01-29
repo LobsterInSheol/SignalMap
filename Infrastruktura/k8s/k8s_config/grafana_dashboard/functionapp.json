@@ -1,0 +1,941 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 166,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "default": false,
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "bf53c5yov0074f"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "min",
+            "max",
+            "mean"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "azureMonitor": {
+            "aggregation": "Average",
+            "alias": "{{cloud/roleinstance}}",
+            "allowedTimeGrainsMs": [
+              60000,
+              300000,
+              900000,
+              1800000,
+              3600000,
+              21600000,
+              43200000,
+              86400000
+            ],
+            "dimensionFilters": [
+              {
+                "dimension": "cloud/roleInstance",
+                "filters": [],
+                "operator": "eq"
+              }
+            ],
+            "metricName": "performanceCounters/processCpuPercentage",
+            "metricNamespace": "microsoft.insights/components",
+            "region": "northeurope",
+            "resources": [
+              {
+                "metricNamespace": "microsoft.insights/components",
+                "region": "northeurope",
+                "resourceGroup": "Inzynierka",
+                "resourceName": "fa-worker",
+                "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+              }
+            ],
+            "timeGrain": "auto"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "bf53c5yov0074f"
+          },
+          "queryType": "Azure Monitor",
+          "refId": "A",
+          "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+        },
+        {
+          "azureMonitor": {
+            "aggregation": "Average",
+            "alias": "{{cloud/roleinstance}}",
+            "allowedTimeGrainsMs": [
+              60000,
+              300000,
+              900000,
+              1800000,
+              3600000,
+              21600000,
+              43200000,
+              86400000
+            ],
+            "dimensionFilters": [
+              {
+                "dimension": "cloud/roleInstance",
+                "filters": [
+                  "0--e02a317e-bf43-4150-a135-7823dfe6c4d1",
+                  "0--c156b4a0-eee3-485b-84a3-1f1e2fda7572",
+                  "0--fdf3b522-d41a-4ff8-92ad-97b814e56883",
+                  "0--2894dd94-353b-4047-8329-f811dc25e17d"
+                ],
+                "operator": "eq"
+              }
+            ],
+            "metricName": "performanceCounters/processCpuPercentage",
+            "metricNamespace": "microsoft.insights/components",
+            "region": "northeurope",
+            "resources": [
+              {
+                "metricNamespace": "microsoft.insights/components",
+                "region": "northeurope",
+                "resourceGroup": "Inzynierka",
+                "resourceName": "fa-submit",
+                "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+              }
+            ],
+            "timeGrain": "auto"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "bf53c5yov0074f"
+          },
+          "hide": false,
+          "queryType": "Azure Monitor",
+          "refId": "B",
+          "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+        }
+      ],
+      "title": "CPU ENDPOINT USAGE",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "default": false,
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "bf53c5yov0074f"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "min",
+            "max",
+            "mean"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "azureMonitor": {
+            "aggregation": "Average",
+            "alias": "{{Instance}} in {{resourceName}}",
+            "allowedTimeGrainsMs": [
+              60000,
+              300000,
+              900000,
+              1800000,
+              3600000,
+              21600000,
+              43200000,
+              86400000
+            ],
+            "customNamespace": "Microsoft.Web/sites",
+            "dimensionFilters": [
+              {
+                "dimension": "Instance",
+                "filters": [],
+                "operator": "eq"
+              }
+            ],
+            "metricName": "MemoryWorkingSet",
+            "metricNamespace": "microsoft.web/sites",
+            "region": "northeurope",
+            "resources": [
+              {
+                "metricNamespace": "Microsoft.Web/sites",
+                "region": "northeurope",
+                "resourceGroup": "Inzynierka",
+                "resourceName": "fa-submit",
+                "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+              }
+            ],
+            "timeGrain": "auto"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "bf53c5yov0074f"
+          },
+          "queryType": "Azure Monitor",
+          "refId": "A",
+          "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+        },
+        {
+          "azureMonitor": {
+            "aggregation": "Average",
+            "alias": "{{Instance}} in {{resourceName}}",
+            "allowedTimeGrainsMs": [
+              60000,
+              300000,
+              900000,
+              1800000,
+              3600000,
+              21600000,
+              43200000,
+              86400000
+            ],
+            "dimensionFilters": [
+              {
+                "dimension": "Instance",
+                "filters": [
+                  "0--d2768151-449b-47a6-9e69-3f5134bb7c7b"
+                ],
+                "operator": "eq"
+              }
+            ],
+            "metricName": "MemoryWorkingSet",
+            "metricNamespace": "microsoft.web/sites",
+            "region": "northeurope",
+            "resources": [
+              {
+                "metricNamespace": "Microsoft.Web/sites",
+                "region": "northeurope",
+                "resourceGroup": "inzynierka",
+                "resourceName": "fa-worker",
+                "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+              }
+            ],
+            "timeGrain": "auto"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "bf53c5yov0074f"
+          },
+          "hide": false,
+          "queryType": "Azure Monitor",
+          "refId": "B",
+          "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+        }
+      ],
+      "title": "RAM memory usage",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "default": false,
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "bf53c5yov0074f"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 7,
+        "x": 0,
+        "y": 12
+      },
+      "id": 3,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "min",
+            "max",
+            "mean"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "azureMonitor": {
+            "aggregation": "Count",
+            "allowedTimeGrainsMs": [
+              60000,
+              300000,
+              900000,
+              1800000,
+              3600000,
+              21600000,
+              43200000,
+              86400000
+            ],
+            "dimensionFilters": [],
+            "metricName": "requests/count",
+            "metricNamespace": "microsoft.insights/components",
+            "region": "northeurope",
+            "resources": [
+              {
+                "metricNamespace": "microsoft.insights/components",
+                "region": "northeurope",
+                "resourceGroup": "Inzynierka",
+                "resourceName": "fa-submit",
+                "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+              }
+            ],
+            "timeGrain": "auto"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "bf53c5yov0074f"
+          },
+          "hide": false,
+          "queryType": "Azure Monitor",
+          "refId": "A",
+          "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+        },
+        {
+          "azureMonitor": {
+            "aggregation": "Count",
+            "allowedTimeGrainsMs": [
+              60000,
+              300000,
+              900000,
+              1800000,
+              3600000,
+              21600000,
+              43200000,
+              86400000
+            ],
+            "dimensionFilters": [
+              {
+                "dimension": "",
+                "filters": [],
+                "operator": "eq"
+              }
+            ],
+            "metricName": "requests/count",
+            "metricNamespace": "microsoft.insights/components",
+            "region": "northeurope",
+            "resources": [
+              {
+                "metricNamespace": "microsoft.insights/components",
+                "region": "northeurope",
+                "resourceGroup": "Inzynierka",
+                "resourceName": "fa-worker",
+                "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+              }
+            ],
+            "timeGrain": "auto"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "bf53c5yov0074f"
+          },
+          "hide": false,
+          "queryType": "Azure Monitor",
+          "refId": "B",
+          "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+        }
+      ],
+      "title": "Server requests",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "default": false,
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "bf53c5yov0074f"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 10,
+        "x": 7,
+        "y": 12
+      },
+      "id": 4,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "min",
+            "max",
+            "mean"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "azureMonitor": {
+            "aggregation": "Count",
+            "alias": "{{cloud/roleinstance}} in {{resourceName}}",
+            "allowedTimeGrainsMs": [
+              60000,
+              300000,
+              900000,
+              1800000,
+              3600000,
+              21600000,
+              43200000,
+              86400000
+            ],
+            "dimensionFilters": [
+              {
+                "dimension": "cloud/roleInstance",
+                "filters": [],
+                "operator": "eq"
+              }
+            ],
+            "metricName": "traces/count",
+            "metricNamespace": "microsoft.insights/components",
+            "region": "northeurope",
+            "resources": [
+              {
+                "metricNamespace": "microsoft.insights/components",
+                "region": "northeurope",
+                "resourceGroup": "Inzynierka",
+                "resourceName": "fa-submit",
+                "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+              }
+            ],
+            "timeGrain": "PT1M"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "bf53c5yov0074f"
+          },
+          "queryType": "Azure Monitor",
+          "refId": "A",
+          "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+        },
+        {
+          "azureMonitor": {
+            "aggregation": "Count",
+            "alias": "{{cloud/roleinstance}} in {{resourceName}}",
+            "allowedTimeGrainsMs": [
+              60000,
+              300000,
+              900000,
+              1800000,
+              3600000,
+              21600000,
+              43200000,
+              86400000
+            ],
+            "dimensionFilters": [
+              {
+                "dimension": "cloud/roleInstance",
+                "filters": [],
+                "operator": "eq"
+              }
+            ],
+            "metricName": "traces/count",
+            "metricNamespace": "microsoft.insights/components",
+            "region": "northeurope",
+            "resources": [
+              {
+                "metricNamespace": "microsoft.insights/components",
+                "region": "northeurope",
+                "resourceGroup": "Inzynierka",
+                "resourceName": "fa-worker",
+                "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+              }
+            ],
+            "timeGrain": "auto"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "bf53c5yov0074f"
+          },
+          "hide": false,
+          "queryType": "Azure Monitor",
+          "refId": "B",
+          "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+        }
+      ],
+      "title": "TRACES",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "default": false,
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "bf53c5yov0074f"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "Automatic Scaling Instance Count fa-submit"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": true
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 7,
+        "x": 17,
+        "y": 12
+      },
+      "id": 5,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "min",
+            "max",
+            "mean"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "azureMonitor": {
+            "aggregation": "Total",
+            "allowedTimeGrainsMs": [
+              60000,
+              300000,
+              900000,
+              1800000,
+              3600000,
+              21600000,
+              43200000,
+              86400000
+            ],
+            "dimensionFilters": [],
+            "metricName": "InstanceCount",
+            "metricNamespace": "microsoft.web/sites",
+            "region": "northeurope",
+            "resources": [
+              {
+                "metricNamespace": "Microsoft.Web/sites",
+                "region": "northeurope",
+                "resourceGroup": "inzynierka",
+                "resourceName": "fa-worker",
+                "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+              }
+            ],
+            "timeGrain": "auto"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "bf53c5yov0074f"
+          },
+          "hide": false,
+          "queryType": "Azure Monitor",
+          "refId": "A",
+          "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+        },
+        {
+          "azureMonitor": {
+            "aggregation": "Total",
+            "allowedTimeGrainsMs": [
+              60000,
+              300000,
+              900000,
+              1800000,
+              3600000,
+              21600000,
+              43200000,
+              86400000
+            ],
+            "dimensionFilters": [],
+            "metricName": "InstanceCount",
+            "metricNamespace": "microsoft.web/sites",
+            "region": "northeurope",
+            "resources": [
+              {
+                "metricNamespace": "Microsoft.Web/sites",
+                "region": "northeurope",
+                "resourceGroup": "Inzynierka",
+                "resourceName": "fa-submit",
+                "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+              }
+            ],
+            "timeGrain": "auto"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "bf53c5yov0074f"
+          },
+          "hide": false,
+          "queryType": "Azure Monitor",
+          "refId": "B",
+          "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+        }
+      ],
+      "title": "Instance Count",
+      "type": "timeseries"
+    }
+  ],
+  "schemaVersion": 39,
+  "tags": [
+    "azure",
+    "collect_data"
+  ],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-12h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "FunctionApp",
+  "uid": "ff54dywkn8h6ob",
+  "version": 11,
+  "weekStart": ""
+}

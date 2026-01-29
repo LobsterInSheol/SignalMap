@@ -1,0 +1,3 @@
+Flask
+psycopg2-binary
+flask-cors==4.0.0

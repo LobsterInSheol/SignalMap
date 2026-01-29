@@ -1,0 +1,212 @@
+trigger: none
+
+pool:
+  name: "Win_LAP"
+
+variables:
+  TF_VERSION: '1.6.6'
+  PG_SERVER:   'inz-postgres'  
+  PG_DB:       'inzdb'          
+  PG_ADMIN:    'pgadmin'        
+  RG_NAME:     'Inzynierka'
+
+steps:
+- task: TerraformInstaller@1
+  displayName: Install Terraform
+  inputs:
+    terraformVersion: '$(TF_VERSION)'
+- task: Cache@2
+  displayName: Cache Terraform plugins
+  inputs:
+    key: tf-plugins | $(Agent.OS) | "$(Build.SourcesDirectory)/database/.terraform.lock.hcl"
+    restoreKeys: |
+      tf-plugins | $(Agent.OS)
+    path: '$(Pipeline.Workspace)/tf-plugin-cache'
+
+- task: AzureCLI@2
+  displayName: "Check if Postgres exists"
+  inputs:
+    azureSubscription: 'Azure-Inzynierka'
+    scriptType: ps
+    scriptLocation: inlineScript
+    inlineScript: |
+      $ErrorActionPreference = 'SilentlyContinue' 
+      $name = "$(PG_SERVER)"
+      $rg   = "$(RG_NAME)"
+
+      $count = az postgres flexible-server list `
+        --resource-group $rg `
+        --query "[?name=='$name'] | length(@)" -o tsv
+
+      if ([int]$count -ge 1) {
+        Write-Host "Postgres server '$name' already exists in RG '$rg'."
+        Write-Host "##vso[task.setvariable variable=PG_EXISTS]true"
+      } else {
+        Write-Host "Postgres server '$name' does not exist in RG '$rg'."
+        Write-Host "##vso[task.setvariable variable=PG_EXISTS]false"
+      }
+
+      exit 0
+
+- task: AzureCLI@2
+  displayName: Terraform init/plan/apply
+  condition: and(succeeded(), ne(variables['PG_EXISTS'], 'true'))
+  inputs:
+    azureSubscription: 'Azure-Inzynierka'
+    scriptType: 'ps'
+    scriptLocation: 'inlineScript'
+    workingDirectory: '$(Build.SourcesDirectory)/database'
+    inlineScript: |
+      Write-Host "[$(Get-Date -Format o)] Start"
+      az account show
+
+      $env:ARM_USE_OIDC        = "true"
+      $env:ARM_CLIENT_ID       = $env:servicePrincipalId
+      $env:ARM_TENANT_ID       = $env:tenantId
+      $env:ARM_SUBSCRIPTION_ID = (az account show --query id -o tsv)
+
+      if ([string]::IsNullOrWhiteSpace("$(DBPASSWORD)")) {
+        Write-Error "DBPASSWORD is empty. Set it as a secret variable in the pipeline UI."
+        exit 1
+      }
+
+      $env:TF_VAR_admin_password = "$(DBPASSWORD)"
+
+      New-Item -ItemType Directory -Force -Path "$(Pipeline.Workspace)/tf-plugin-cache" | Out-Null
+      $env:TF_PLUGIN_CACHE_DIR = "$(Pipeline.Workspace)/tf-plugin-cache"
+
+      Write-Host "[$(Get-Date -Format o)] terraform init..."
+      terraform init -input=false -no-color
+
+      Write-Host "[$(Get-Date -Format o)] terraform plan..."
+      terraform plan -out=tfplan -no-color
+
+      Write-Host "[$(Get-Date -Format o)] terraform apply..."
+      terraform apply -auto-approve tfplan -no-color
+
+      Write-Host "[$(Get-Date -Format o)] Done"
+
+- task: AzureCLI@2
+  displayName: "Allow PostGIS on the server (azure.extensions)"
+  inputs:
+    azureSubscription: 'Azure-Inzynierka'
+    scriptType: ps
+    scriptLocation: inlineScript
+    inlineScript: |
+      $rg  = "$(RG_NAME)"
+      $srv = "$(PG_SERVER)"
+
+      az postgres flexible-server parameter show `
+        --name azure.extensions -g $rg -s $srv
+
+      $val = "postgis,postgis_raster,postgis_topology"
+      az postgres flexible-server parameter set `
+        --name azure.extensions --resource-group $rg --server-name $srv `
+        --value $val --only-show-errors
+      Start-Sleep -Seconds 3
+
+- task: AzureCLI@2
+  displayName: "Apply DB schema via az postgres flexible-server execute"
+  inputs:
+    azureSubscription: 'Azure-Inzynierka'
+    scriptType: ps
+    scriptLocation: inlineScript
+    workingDirectory: '$(Build.SourcesDirectory)'
+    inlineScript: |
+      )
+      if ([string]::IsNullOrWhiteSpace("$(DBPASSWORD)")) {
+        Write-Error "DBPASSWORD is empty. Set it as a secret pipeline variable (UI)."
+        exit 1
+      }
+
+      $srv = "$(PG_SERVER)"
+      $rg  = "$(RG_NAME)"
+
+      Write-Host "Waiting for server '$srv' to be Ready..."
+      $retries = 30
+      do {
+        $state = az postgres flexible-server show -g $rg -n $srv --query state -o tsv 2>$null
+        if ($state -eq "Ready") { break }
+        Start-Sleep -Seconds 10
+        $retries--
+      } while ($retries -gt 0)
+
+      if ($state -ne "Ready") {
+        Write-Error "Server '$srv' not Ready (state: $state)."
+        exit 1
+      }
+
+      az config set extension.use_dynamic_install=yes_without_prompt
+      az config set extension.dynamic_install_allow_preview=true
+
+      $extOk = $false
+      try {
+        az extension add --name rdbms-connect --upgrade --allow-preview true --only-show-errors
+        $extOk = $true
+      } catch {
+        Write-Host "WARN: rdbms-connect not found via name. Trying catalog lookup..."
+      }
+      if (-not $extOk) {
+        $match = az extension list-available --query "[?contains(name,'rdbms')].name" -o tsv 2>$null
+        if ($match) {
+          az extension add --name $match --upgrade --allow-preview true --only-show-errors
+          $extOk = $true
+        }
+      }
+      if (-not $extOk) {
+        Write-Host "WARN: Falling back to direct wheel URL for rdbms-connect..."
+        $wheel = "https://github.com/Azure/azure-cli-extensions/releases/download/rdbms-connect-1.4.7/rdbms_connect-1.4.7-py3-none-any.whl"
+        az extension add --source $wheel --only-show-errors
+      }
+
+      az extension list | Write-Host
+
+      $MYIP = $null
+      try {
+        try { $MYIP = (Invoke-WebRequest -UseBasicParsing "https://ifconfig.me/ip").Content.Trim() } catch { }
+        if (-not $MYIP) { $MYIP = (Invoke-WebRequest -UseBasicParsing "https://api.ipify.org").Content.Trim() }
+      } catch { }
+
+      if ($MYIP) {
+        # Build a valid rule name: only [0-9a-zA-Z-_], no trailing '-'
+        $safeIp   = ($MYIP -replace '\.', '-')
+        $ruleName = ("ado-agent-{0}" -f $safeIp).TrimEnd('-')
+        
+        if ($ruleName.Length -gt 80) { $ruleName = $ruleName.Substring(0,80).TrimEnd('-') }
+
+        Write-Host "Adding temporary firewall rule for agent IP: $MYIP (rule: $ruleName)"
+        try {
+          az postgres flexible-server firewall-rule create `
+            -g $rg -n $srv `
+            --rule-name "$ruleName" `
+            --start-ip-address $MYIP --end-ip-address $MYIP --only-show-errors | Out-Null
+
+          Start-Sleep -Seconds 10
+        } catch {
+          Write-Error "FAILED to create firewall rule '$ruleName' for $MYIP. $_"
+          throw
+        }
+      } else {
+        Write-Warning "Could not determine agent public IP. Connection may time out."
+      }
+      
+      $sqlFile = "$(Build.SourcesDirectory)\database\db\schema.sql"
+      if (!(Test-Path $sqlFile)) { Write-Error "SQL file not found: $sqlFile"; exit 1 }
+
+      az postgres flexible-server execute `
+        --name "$(PG_SERVER)" `
+        --admin-user "$(PG_ADMIN)" `
+        --admin-password "$(DBPASSWORD)" `
+        --database-name "$(PG_DB)" `
+        --file-path "$sqlFile"
+
+      $exit = $LASTEXITCODE
+
+      if ($MYIP) {
+        $safeIp   = ($MYIP -replace '\.', '-')
+        $ruleName = ("ado-agent-{0}" -f $safeIp).TrimEnd('-')
+        az postgres flexible-server firewall-rule delete `
+          -g $rg -n $srv `
+          --rule-name "$ruleName" --yes --only-show-errors | Out-Null
+      }
+

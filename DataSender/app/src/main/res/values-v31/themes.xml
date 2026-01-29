@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.DataSender" parent="android:Theme.Material.Light.NoActionBar">
+        <!-- Android 12+ Splash -->
+        <item name="android:windowSplashScreenBackground">#0B132B</item>
+
+        <!-- Starsze Androidy (fallback) -->
+        <item name="android:windowBackground">#0B132B</item>
+    </style>
+</resources>

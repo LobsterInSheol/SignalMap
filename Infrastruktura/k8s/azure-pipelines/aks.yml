@@ -1,0 +1,77 @@
+trigger: none
+
+pool:
+  name: 'Win'
+
+variables:
+  TF_VERSION: '1.6.6'
+  RG_NAME:    'Inzynierka'
+  AKS_NAME:   'inzynierka-aks'
+
+stages:
+- stage: Terraform
+  jobs:
+  - job: Terraform
+    steps:
+    - checkout: self
+
+    - task: TerraformInstaller@1
+      displayName: Install Terraform
+      inputs:
+        terraformVersion: '$(TF_VERSION)'
+
+    - task: Cache@2
+      displayName: Cache Terraform plugins
+      inputs:
+        key: tf-plugins | $(Agent.OS) | "$(Build.SourcesDirectory)/k8s/.terraform.lock.hcl"
+        restoreKeys: |
+          tf-plugins | $(Agent.OS)
+        path: $(Pipeline.Workspace)/tf-plugin-cache
+
+    - task: AzureCLI@2
+      displayName: "Check if AKS exists"
+      inputs:
+        azureSubscription: 'Azure-Inzynierka'
+        scriptType: ps
+        scriptLocation: inlineScript
+        inlineScript: |
+          $name = "$(AKS_NAME)"
+          $rg   = "$(RG_NAME)"
+          $count = az aks list -g $rg --query "[?name=='$name'] | length(@)" -o tsv
+          if ([int]$count -ge 1) {
+            Write-Host "AKS '$name' exists."
+            Write-Host "##vso[task.setvariable variable=AKS_EXISTS]true"
+          } else {
+            Write-Host "AKS '$name' does not exist."
+            Write-Host "##vso[task.setvariable variable=AKS_EXISTS]false"
+          }
+          exit 0
+
+
+    - task: AzureCLI@2
+      displayName: "Terraform init/plan/apply (k8s)"
+      condition: and(succeeded(), ne(variables['AKS_EXISTS'], 'true'))
+      inputs:
+        azureSubscription: 'Azure-Inzynierka'
+        scriptType: ps
+        scriptLocation: inlineScript
+        workingDirectory: '$(Build.SourcesDirectory)/k8s/terraform'
+        inlineScript: |
+          $env:ARM_USE_OIDC        = "true"
+          $env:ARM_CLIENT_ID       = $env:servicePrincipalId
+          $env:ARM_TENANT_ID       = $env:tenantId
+          $env:ARM_SUBSCRIPTION_ID = (az account show --query id -o tsv)
+
+          New-Item -ItemType Directory -Force -Path "$(Pipeline.Workspace)/tf-plugin-cache" | Out-Null
+          $env:TF_PLUGIN_CACHE_DIR = "$(Pipeline.Workspace)/tf-plugin-cache"
+
+          $env:TF_VAR_rg_name          = "$(RG_NAME)"
+          $env:TF_VAR_rg_location      = "northeurope"      
+          $env:TF_VAR_k8s_cluster_name = "$(AKS_NAME)"
+
+          terraform fmt -check -no-color
+          terraform init -input=false -no-color
+          terraform validate -no-color
+
+          terraform plan -out=tfplan -no-color
+          terraform apply -auto-approve tfplan -no-color

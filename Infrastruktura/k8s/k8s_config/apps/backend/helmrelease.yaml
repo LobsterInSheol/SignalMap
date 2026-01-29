@@ -1,0 +1,30 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: backend
+  namespace: backend
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: ./k8s/k8s_config/apps/backend/charts
+      reconcileStrategy: Revision
+      sourceRef:
+        kind: GitRepository
+        name: gitrepo
+        namespace: flux-system
+  values:
+    image:
+      tag: "1.0.23"
+
+    extraVolumes:
+      - name: secrets-data
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: csi-driver  
+
+    extraVolumeMounts:
+      - name: secrets-data
+        mountPath: /appuser/kv                 

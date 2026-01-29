@@ -1,0 +1,29 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: frontend
+  namespace: frontend
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: ./k8s/k8s_config/apps/frontend/charts
+      reconcileStrategy: Revision
+      sourceRef:
+        kind: GitRepository
+        name: gitrepo
+        namespace: flux-system
+  values:
+    image:
+      tag: "1.0.22"
+    service:
+      type: ClusterIP
+    ingress:
+      enabled: true
+      className: nginx
+      hosts:
+        - host: signalmap.com.pl
+          paths:
+            - path: /
+              pathType: Prefix
+              servicePort: 80

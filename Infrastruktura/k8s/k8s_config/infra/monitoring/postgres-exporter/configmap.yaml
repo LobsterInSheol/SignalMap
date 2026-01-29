@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgresql-exporter-start
+  namespace: monitoring
+data:
+  start.sh: |
+    #!/bin/sh
+    set -eu
+
+    PGHOST="$(cat /app/kv/PGHOST)"
+    PGPORT="$(cat /app/kv/PGPORT)"
+    PGDATABASE="$(cat /app/kv/PGDATABASE)"
+    PGUSERMETRICS="$(cat /app/kv/PGUSERMETRICS)"
+    PGUSERMETRICSPASSWORD="$(cat /app/kv/PGUSERMETRICSPASSWORD)"
+    PGSSLMODE="$(cat /app/kv/PGSSLMODE || echo require)"
+
+    export DATA_SOURCE_NAME="postgresql://${PGUSERMETRICS}:${PGUSERMETRICSPASSWORD}@${PGHOST}:${PGPORT}/${PGDATABASE}?sslmode=${PGSSLMODE}"
+
+    exec /bin/postgres_exporter

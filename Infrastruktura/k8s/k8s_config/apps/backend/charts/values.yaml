@@ -1,0 +1,29 @@
+replicaCount: 2
+
+image:
+  repository: inzynierka-hybud7ede0bqgaeg.azurecr.io/map-backend
+  tag: "1.0.0"
+imagePullPolicy: IfNotPresent
+
+containerPort: 8080
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 4
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 70
+
+resources: 
+  requests:
+    memory: "100Mi"
+    cpu: "128m"
+  limits:
+    memory: "256Mi"
+    cpu: "500m"
+env: []

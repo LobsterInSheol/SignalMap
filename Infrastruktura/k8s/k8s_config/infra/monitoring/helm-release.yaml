@@ -1,0 +1,53 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: monitoring
+  namespace: monitoring
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: kube-prometheus-stack
+      version: "65.5.0"   
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community
+        namespace: flux-system
+  install:
+    createNamespace: true
+  values:
+    grafana:
+      adminPassword: admin123   
+      service:
+        type: ClusterIP
+      env:
+        GF_SERVER_ROOT_URL: https://grafana.signalmap.com.pl
+        GF_SERVER_SERVE_FROM_SUB_PATH: "false"
+        GF_SERVER_DOMAIN: grafana.signalmap.com.pl
+      grafana.ini:
+        server:
+          root_url: https://grafana.signalmap.com.pl
+          serve_from_sub_path: false
+          domain: grafana.signalmap.com.pl
+      persistence:
+        enabled: true
+        storageClassName: "standard-lrs-grafana" 
+        accessModes:
+          - ReadWriteOnce
+        size: 5Gi
+    prometheus:
+      enabled: true
+      prometheusSpec:
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: "standard-lrs-prometheus" 
+              accessModes: ["ReadWriteOnce"]
+              resources:
+                requests:
+                  storage: 20Gi 
+      service:
+        type: ClusterIP
+    alertmanager:
+      service:
+        type: ClusterIP

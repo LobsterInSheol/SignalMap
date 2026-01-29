@@ -1,0 +1,34 @@
+apiVersion: secrets-store.csi.x-k8s.io/v1
+kind: SecretProviderClass
+metadata:
+  name: csi-driver          
+  namespace: backend        
+spec:
+  provider: azure
+  parameters:
+    usePodIdentity: "false"
+    useVMManagedIdentity: "true"
+    userAssignedIdentityID: "553cf8fe-d4cf-4865-810e-31b1e5101b5f"
+    keyvaultName: "inzynierka"
+    tenantId: "f891926b-d24a-4821-9776-af17f20e61df"
+    filePermission: "0644"
+    objects: |
+      array:
+        - |
+          objectName: PGHOST
+          objectType: secret
+        - |
+          objectName: PGPORT
+          objectType: secret
+        - |
+          objectName: PGDATABASE
+          objectType: secret
+        - |
+          objectName: PGUSER
+          objectType: secret
+        - |
+          objectName: PGPASSWORD
+          objectType: secret
+        - |
+          objectName: PGSSLMODE
+          objectType: secret

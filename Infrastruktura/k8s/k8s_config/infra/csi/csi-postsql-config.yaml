@@ -1,0 +1,63 @@
+apiVersion: secrets-store.csi.x-k8s.io/v1
+kind: SecretProviderClass
+metadata:
+  name: postgresql-metrics-secrets
+  namespace: monitoring
+spec:
+  provider: azure
+  parameters:
+    usePodIdentity: "false"
+    useVMManagedIdentity: "true"
+    userAssignedIdentityID: "553cf8fe-d4cf-4865-810e-31b1e5101b5f"
+    keyvaultName: "inzynierka"
+    tenantId: "f891926b-d24a-4821-9776-af17f20e61df"
+    objects: |
+      array:
+        - | 
+          objectName: PGHOST
+          objectType: secret
+        - | 
+          objectName: PGPORT
+          objectType: secret
+        - | 
+          objectName: PGDATABASE
+          objectType: secret
+        - | 
+          objectName: PGUSERMETRICS
+          objectType: secret
+        - | 
+          objectName: PGUSERMETRICSPASSWORD
+          objectType: secret
+        - | 
+          objectName: PGSSLMODE
+          objectType: secret
+# ---
+# apiVersion: secrets-store.csi.x-k8s.io/v1
+# kind: SecretProviderClass
+# metadata:
+#   name: postgresql-server-secrets
+#   namespace: monitoring
+# spec:
+#   provider: azure
+#   parameters:
+#     usePodIdentity: "false"
+#     useVMManagedIdentity: "true"
+#     userAssignedIdentityID: "553cf8fe-d4cf-4865-810e-31b1e5101b5f"
+#     keyvaultName: "inzynierka"
+#     tenantId: "f891926b-d24a-4821-9776-af17f20e61df"
+#     objects: |
+#       array:
+#         - | 
+#           objectName: AZURE_TENANT_ID
+#           objectType: secret
+#         - | 
+#           objectName: AZURE_CLIENT_ID
+#           objectType: secret
+#         - | 
+#           objectName: AZURE_CLIENT_SECRET
+#           objectType: secret
+#         - |
+#           objectName: AZURE_RESOURCE_ID
+#           objectType: secret  
+          
+# # /subscriptions/dbb3dc1a-cb53-4add-a56f-c84e50cac7a1/resourceGroups/Inzynierka/providers/Microsoft.DBforPostgreSQL/flexibleServers/inz-postgres

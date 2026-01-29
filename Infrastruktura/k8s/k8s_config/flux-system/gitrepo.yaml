@@ -1,0 +1,13 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: gitrepo
+  namespace: flux-system
+spec:
+  interval: 1m
+  url: https://dev.azure.com/fransmed/Inzynierka/_git/Infrastruktura
+  ref:
+    branch: main
+  secretRef:
+    name: azdo
+    

@@ -1,0 +1,56 @@
+replicaCount: 2
+
+image:
+  repository: inzynierka-hybud7ede0bqgaeg.azurecr.io/map-frontend
+  tag: "1.0.0"
+imagePullPolicy: IfNotPresent
+
+containerPort: 80
+
+service:
+  type: ClusterIP          
+  port: 80
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 4
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 70
+
+resources: 
+  requests:
+    memory: "100Mi"
+    cpu: "128m"
+  limits:
+    memory: "256Mi"
+    cpu: "500m"
+
+env: []
+
+backend:
+  scheme: http
+  serviceName: backend
+  namespace: backend
+  port: 80
+
+networkPolicy:
+  enabled: true
+
+ingress:
+  enabled: true
+  className: nginx
+  extraAnnotations: 
+    cert-manager.io/cluster-issuer: letsencrypt-frontend-app
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+  hosts:
+    - host: signalmap.com.pl
+      paths:
+        - path: /
+          pathType: Prefix
+          servicePort: 80
+  tls:
+    enabled: true
+    secretName: frontend-app-tls
+    hosts:
+        - signalmap.com.pl

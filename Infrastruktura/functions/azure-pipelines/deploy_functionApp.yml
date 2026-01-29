@@ -1,0 +1,47 @@
+trigger: none
+## ten jest ręczny triger, będzie wam brało ostatniego zipa zbudowanego przez functionApp.yml
+resources:
+  pipelines:
+  - pipeline: buildZip
+    source: FunctionApp_Zip
+    branch: functionapp    
+## tu wskazujecie nazwę branchu na którym został stworzony build zip
+
+variables:
+  AZURE_FUNCTIONAPP_NAME: 'inzynierkaFunctionApp'
+  RG_NAME: 'Inzynierka'
+
+pool:
+  name: 'Win'
+
+stages:
+- stage: Deploy
+  jobs:
+  - job: DeployFunctionApp
+    steps:
+    - download: buildZip
+      artifact: functionapp
+      displayName: 'Download build artifact'
+    ### szukamy najnowszego zipa w workspace
+    - powershell: |
+        Write-Host "== Search newest ZIP-a w $(Pipeline.Workspace) =="
+        $latest = Get-ChildItem -Recurse -File '$(Pipeline.Workspace)' -Filter *.zip |
+                  Sort-Object LastWriteTime -Descending |
+                  Select-Object -First 1
+        if (-not $latest) { throw "No ZIP file in $(Pipeline.Workspace)" }
+        Write-Host "Newest: $($latest.FullName)"
+        Write-Host "##vso[task.setvariable variable=DEPLOY_ZIP]$($latest.FullName)"
+      displayName: 'Take latest ZIP from workspace'
+    ### deploy na azure function app
+    - task: AzureCLI@2
+      displayName: 'Deploy (Flex) via az functionapp deployment source config-zip'
+      inputs:
+        azureSubscription: 'Azure-Inzynierka'
+        scriptType: ps
+        scriptLocation: inlineScript
+        inlineScript: |
+            az functionapp deployment source config-zip `
+              --name "$(AZURE_FUNCTIONAPP_NAME)" `
+              --resource-group "$(RG_NAME)" `
+              --src "$(DEPLOY_ZIP)" `
+              --build-remote true

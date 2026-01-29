@@ -1,0 +1,39 @@
+trigger:
+- main
+
+variables:
+  ACR_NAME: 'inzynierka'         
+  IMAGE_NAME: 'map-frontend'   
+  MAJOR_MINOR: '1.0'
+  PATCH: $[ counter('map-frontend-1.0', 0) ]
+  VERSION: '$(MAJOR_MINOR).$(PATCH)'
+
+stages:
+- stage: build_push
+  jobs:
+  - job: acr_build
+    displayName: Build in ACR (cloud build & push) frotend app
+    pool:
+      name: 'Win'
+    steps:
+    - checkout: self
+    - task: AzureCLI@2
+      displayName: az acr build
+      env:
+        ACR_NAME: $(ACR_NAME)
+        IMAGE_NAME: $(IMAGE_NAME)
+        VERSION: $(VERSION)
+        AZURE_CORE_NO_COLOR: '1'
+        AZURE_CORE_ONLY_SHOW_ERRORS: '1'
+      inputs:
+        azureSubscription: 'Azure-Inzynierka'
+        scriptType: ps
+        scriptLocation: inlineScript
+        inlineScript: |
+          $ErrorActionPreference = 'Stop'
+          az acr build `
+            --registry $env:ACR_NAME `
+            --image "$($env:IMAGE_NAME):$($env:VERSION)" `
+            --file app/dockerfile app `
+            --no-logs `
+            -o none

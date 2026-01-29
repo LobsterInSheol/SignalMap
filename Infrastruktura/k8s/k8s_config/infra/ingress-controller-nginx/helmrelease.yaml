@@ -1,0 +1,26 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: ingress-nginx
+  namespace: ingress-nginx
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: ingress-nginx
+      version: 4.13.3
+      sourceRef:
+        kind: HelmRepository
+        name: ingress-nginx
+        namespace: flux-system  
+  values:
+    controller:
+      metrics:
+        enabled: true
+      replicaCount: 2
+      service:
+        type: LoadBalancer
+        externalTrafficPolicy: Local
+        annotations:
+          service.beta.kubernetes.io/azure-load-balancer-resource-group: Inzynierka
+          service.beta.kubernetes.io/azure-pip-name: ingress-frontned-ip

@@ -1,0 +1,1634 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 171,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "default": false,
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "bf53c5yov0074f"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "color": "semi-dark-green",
+                  "index": 0,
+                  "text": "UP"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 4,
+        "x": 0,
+        "y": 0
+      },
+      "id": 10,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.2.2+security-01",
+      "targets": [
+        {
+          "azureMonitor": {
+            "aggregation": "Maximum",
+            "allowedTimeGrainsMs": [
+              60000,
+              300000,
+              900000,
+              1800000,
+              3600000,
+              21600000,
+              43200000,
+              86400000
+            ],
+            "dimensionFilters": [],
+            "metricName": "is_db_alive",
+            "metricNamespace": "microsoft.dbforpostgresql/flexibleservers",
+            "region": "northeurope",
+            "resources": [
+              {
+                "metricNamespace": "Microsoft.DBforPostgreSQL/flexibleServers",
+                "region": "northeurope",
+                "resourceGroup": "Inzynierka",
+                "resourceName": "inz-postgres",
+                "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+              }
+            ],
+            "timeGrain": "auto"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "bf53c5yov0074f"
+          },
+          "queryType": "Azure Monitor",
+          "refId": "A",
+          "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+        }
+      ],
+      "title": "SERVER STATUS",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "default": false,
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "bf53c5yov0074f"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 4,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "min",
+            "max",
+            "mean"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "azureMonitor": {
+            "aggregation": "Average",
+            "allowedTimeGrainsMs": [
+              60000,
+              300000,
+              900000,
+              1800000,
+              3600000,
+              21600000,
+              43200000,
+              86400000
+            ],
+            "dimensionFilters": [],
+            "metricName": "cpu_percent",
+            "metricNamespace": "microsoft.dbforpostgresql/flexibleservers",
+            "region": "northeurope",
+            "resources": [
+              {
+                "metricNamespace": "Microsoft.DBforPostgreSQL/flexibleServers",
+                "region": "northeurope",
+                "resourceGroup": "Inzynierka",
+                "resourceName": "inz-postgres",
+                "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+              }
+            ],
+            "timeGrain": "auto"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "bf53c5yov0074f"
+          },
+          "queryType": "Azure Monitor",
+          "refId": "A",
+          "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+        },
+        {
+          "azureMonitor": {
+            "aggregation": "Average",
+            "alias": "",
+            "allowedTimeGrainsMs": [
+              60000,
+              300000,
+              900000,
+              1800000,
+              3600000,
+              21600000,
+              43200000,
+              86400000
+            ],
+            "dimensionFilters": [],
+            "metricName": "memory_percent",
+            "metricNamespace": "microsoft.dbforpostgresql/flexibleservers",
+            "region": "northeurope",
+            "resources": [
+              {
+                "metricNamespace": "Microsoft.DBforPostgreSQL/flexibleServers",
+                "region": "northeurope",
+                "resourceGroup": "Inzynierka",
+                "resourceName": "inz-postgres",
+                "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+              }
+            ],
+            "timeGrain": "auto"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "bf53c5yov0074f"
+          },
+          "hide": false,
+          "queryType": "Azure Monitor",
+          "refId": "B",
+          "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+        }
+      ],
+      "title": "CPU AND MEMORY INFO",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "default": false,
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "bf53c5yov0074f"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-GrYlRd"
+          },
+          "displayName": "Storage Total",
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "decbytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 0
+      },
+      "id": 9,
+      "options": {
+        "displayMode": "lcd",
+        "maxVizHeight": 300,
+        "minVizHeight": 16,
+        "minVizWidth": 8,
+        "namePlacement": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true,
+        "sizing": "auto",
+        "valueMode": "color"
+      },
+      "pluginVersion": "11.2.2+security-01",
+      "targets": [
+        {
+          "azureMonitor": {
+            "aggregation": "Total",
+            "alias": "Storage Percent",
+            "allowedTimeGrainsMs": [
+              60000,
+              300000,
+              900000,
+              1800000,
+              3600000,
+              21600000,
+              43200000,
+              86400000
+            ],
+            "dimensionFilters": [],
+            "metricName": "storage_percent",
+            "metricNamespace": "microsoft.dbforpostgresql/flexibleservers",
+            "region": "northeurope",
+            "resources": [
+              {
+                "metricNamespace": "Microsoft.DBforPostgreSQL/flexibleServers",
+                "region": "northeurope",
+                "resourceGroup": "Inzynierka",
+                "resourceName": "inz-postgres",
+                "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+              }
+            ],
+            "timeGrain": "auto"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "bf53c5yov0074f"
+          },
+          "hide": true,
+          "queryType": "Azure Monitor",
+          "refId": "A",
+          "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+        },
+        {
+          "azureMonitor": {
+            "aggregation": "Average",
+            "alias": "Storage Used",
+            "allowedTimeGrainsMs": [
+              60000,
+              300000,
+              900000,
+              1800000,
+              3600000,
+              21600000,
+              43200000,
+              86400000
+            ],
+            "dimensionFilters": [],
+            "metricName": "storage_used",
+            "metricNamespace": "microsoft.dbforpostgresql/flexibleservers",
+            "region": "northeurope",
+            "resources": [
+              {
+                "metricNamespace": "Microsoft.DBforPostgreSQL/flexibleServers",
+                "region": "northeurope",
+                "resourceGroup": "Inzynierka",
+                "resourceName": "inz-postgres",
+                "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+              }
+            ],
+            "timeGrain": "auto"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "bf53c5yov0074f"
+          },
+          "hide": false,
+          "queryType": "Azure Monitor",
+          "refId": "B",
+          "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+        },
+        {
+          "azureMonitor": {
+            "aggregation": "Maximum",
+            "alias": "Storage Free",
+            "allowedTimeGrainsMs": [
+              60000,
+              300000,
+              900000,
+              1800000,
+              3600000,
+              21600000,
+              43200000,
+              86400000
+            ],
+            "dimensionFilters": [],
+            "metricName": "storage_free",
+            "metricNamespace": "microsoft.dbforpostgresql/flexibleservers",
+            "region": "northeurope",
+            "resources": [
+              {
+                "metricNamespace": "Microsoft.DBforPostgreSQL/flexibleServers",
+                "region": "northeurope",
+                "resourceGroup": "Inzynierka",
+                "resourceName": "inz-postgres",
+                "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+              }
+            ],
+            "timeGrain": "auto"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "bf53c5yov0074f"
+          },
+          "hide": false,
+          "queryType": "Azure Monitor",
+          "refId": "C",
+          "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+        },
+        {
+          "datasource": {
+            "name": "Expression",
+            "type": "__expr__",
+            "uid": "__expr__"
+          },
+          "expression": "$B +$C",
+          "hide": false,
+          "refId": "D",
+          "type": "math"
+        }
+      ],
+      "title": "STORAGE INFO",
+      "transparent": true,
+      "type": "bargauge"
+    },
+    {
+      "datasource": {
+        "default": false,
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "bf53c5yov0074f"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 5,
+        "x": 0,
+        "y": 8
+      },
+      "id": 4,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.2.2+security-01",
+      "targets": [
+        {
+          "azureMonitor": {
+            "aggregation": "Total",
+            "alias": "{{servername}}",
+            "allowedTimeGrainsMs": [
+              60000,
+              300000,
+              900000,
+              1800000,
+              3600000,
+              21600000,
+              43200000,
+              86400000
+            ],
+            "dimensionFilters": [
+              {
+                "dimension": "ServerName",
+                "filters": [
+                  "inz-postgres"
+                ],
+                "operator": "eq"
+              }
+            ],
+            "metricName": "xact_total",
+            "metricNamespace": "microsoft.dbforpostgresql/flexibleservers",
+            "region": "northeurope",
+            "resources": [
+              {
+                "metricNamespace": "Microsoft.DBforPostgreSQL/flexibleServers",
+                "region": "northeurope",
+                "resourceGroup": "Inzynierka",
+                "resourceName": "inz-postgres",
+                "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+              }
+            ],
+            "timeGrain": "auto"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "bf53c5yov0074f"
+          },
+          "queryType": "Azure Monitor",
+          "refId": "A",
+          "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+        }
+      ],
+      "title": "TOTAL TRANSATIONS",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "default": false,
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "bf53c5yov0074f"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 11,
+        "x": 5,
+        "y": 8
+      },
+      "id": 3,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.2.2+security-01",
+      "targets": [
+        {
+          "azureMonitor": {
+            "aggregation": "Total",
+            "alias": "{{databasename}}",
+            "allowedTimeGrainsMs": [
+              60000,
+              300000,
+              900000,
+              1800000,
+              3600000,
+              21600000,
+              43200000,
+              86400000
+            ],
+            "dimensionFilters": [
+              {
+                "dimension": "DatabaseName",
+                "filters": [],
+                "operator": "eq"
+              }
+            ],
+            "metricName": "xact_total",
+            "metricNamespace": "microsoft.dbforpostgresql/flexibleservers",
+            "region": "northeurope",
+            "resources": [
+              {
+                "metricNamespace": "Microsoft.DBforPostgreSQL/flexibleServers",
+                "region": "northeurope",
+                "resourceGroup": "Inzynierka",
+                "resourceName": "inz-postgres",
+                "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+              }
+            ],
+            "timeGrain": "auto"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "bf53c5yov0074f"
+          },
+          "queryType": "Azure Monitor",
+          "refId": "A",
+          "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+        }
+      ],
+      "title": "TOTAL TRANSACTION by database",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "default": false,
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "bf53c5yov0074f"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "center",
+            "cellOptions": {
+              "type": "auto",
+              "wrapText": false
+            },
+            "filterable": true,
+            "inspect": false
+          },
+          "fieldMinMax": true,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 16,
+        "y": 8
+      },
+      "id": 6,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "enablePagination": true,
+          "fields": [],
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.2.2+security-01",
+      "targets": [
+        {
+          "azureMonitor": {
+            "aggregation": "Average",
+            "alias": "",
+            "allowedTimeGrainsMs": [
+              60000,
+              300000,
+              900000,
+              1800000,
+              3600000,
+              21600000,
+              43200000,
+              86400000
+            ],
+            "dimensionFilters": [
+              {
+                "dimension": "LogicalServerName",
+                "filters": [],
+                "operator": "eq"
+              }
+            ],
+            "metricName": "backup_storage_used",
+            "metricNamespace": "microsoft.dbforpostgresql/flexibleservers",
+            "region": "northeurope",
+            "resources": [
+              {
+                "metricNamespace": "Microsoft.DBforPostgreSQL/flexibleServers",
+                "region": "northeurope",
+                "resourceGroup": "Inzynierka",
+                "resourceName": "inz-postgres",
+                "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+              }
+            ],
+            "timeGrain": "auto"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "bf53c5yov0074f"
+          },
+          "queryType": "Azure Monitor",
+          "refId": "A",
+          "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+        }
+      ],
+      "title": "BACKUP INFO",
+      "transformations": [
+        {
+          "id": "filterByValue",
+          "options": {
+            "filters": [
+              {
+                "config": {
+                  "id": "isNotNull",
+                  "options": {}
+                },
+                "fieldName": "Backup Storage Used {logicalservername=\"inz-postgres\", resourceName=\"inz-postgres\"}"
+              }
+            ],
+            "match": "any",
+            "type": "include"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "Backup Storage Used {logicalservername=\"inz-postgres\", resourceName=\"inz-postgres\"}": "backup in inz-postgres"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "desc": true,
+                "field": "Time"
+              }
+            ]
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "default": false,
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "bf53c5yov0074f"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 15
+      },
+      "id": 7,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "min",
+            "max",
+            "mean"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "azureMonitor": {
+            "aggregation": "Average",
+            "allowedTimeGrainsMs": [
+              60000,
+              300000,
+              900000,
+              1800000,
+              3600000,
+              21600000,
+              43200000,
+              86400000
+            ],
+            "dimensionFilters": [],
+            "metricName": "read_iops",
+            "metricNamespace": "microsoft.dbforpostgresql/flexibleservers",
+            "region": "northeurope",
+            "resources": [
+              {
+                "metricNamespace": "Microsoft.DBforPostgreSQL/flexibleServers",
+                "region": "northeurope",
+                "resourceGroup": "Inzynierka",
+                "resourceName": "inz-postgres",
+                "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+              }
+            ],
+            "timeGrain": "auto"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "bf53c5yov0074f"
+          },
+          "queryType": "Azure Monitor",
+          "refId": "A",
+          "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+        },
+        {
+          "azureMonitor": {
+            "aggregation": "Average",
+            "allowedTimeGrainsMs": [
+              60000,
+              300000,
+              900000,
+              1800000,
+              3600000,
+              21600000,
+              43200000,
+              86400000
+            ],
+            "dimensionFilters": [],
+            "metricName": "write_iops",
+            "metricNamespace": "microsoft.dbforpostgresql/flexibleservers",
+            "region": "northeurope",
+            "resources": [
+              {
+                "metricNamespace": "Microsoft.DBforPostgreSQL/flexibleServers",
+                "region": "northeurope",
+                "resourceGroup": "Inzynierka",
+                "resourceName": "inz-postgres",
+                "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+              }
+            ],
+            "timeGrain": "auto"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "bf53c5yov0074f"
+          },
+          "hide": false,
+          "queryType": "Azure Monitor",
+          "refId": "B",
+          "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+        }
+      ],
+      "title": "IOPS INFO",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "default": false,
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "bf53c5yov0074f"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 15
+      },
+      "id": 1,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "min",
+            "max",
+            "mean"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "azureMonitor": {
+            "aggregation": "Total",
+            "allowedTimeGrainsMs": [
+              60000,
+              300000,
+              900000,
+              1800000,
+              3600000,
+              21600000,
+              43200000,
+              86400000
+            ],
+            "customNamespace": "Microsoft.DBforPostgreSQL/flexibleServers",
+            "dimensionFilters": [],
+            "metricName": "network_bytes_ingress",
+            "metricNamespace": "microsoft.dbforpostgresql/flexibleservers",
+            "region": "northeurope",
+            "resources": [
+              {
+                "metricNamespace": "Microsoft.DBforPostgreSQL/flexibleServers",
+                "region": "northeurope",
+                "resourceGroup": "Inzynierka",
+                "resourceName": "inz-postgres",
+                "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+              }
+            ],
+            "timeGrain": "auto"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "bf53c5yov0074f"
+          },
+          "hide": false,
+          "queryType": "Azure Monitor",
+          "refId": "A",
+          "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+        },
+        {
+          "azureMonitor": {
+            "aggregation": "Total",
+            "allowedTimeGrainsMs": [
+              60000,
+              300000,
+              900000,
+              1800000,
+              3600000,
+              21600000,
+              43200000,
+              86400000
+            ],
+            "dimensionFilters": [],
+            "metricName": "network_bytes_egress",
+            "metricNamespace": "microsoft.dbforpostgresql/flexibleservers",
+            "region": "northeurope",
+            "resources": [
+              {
+                "metricNamespace": "Microsoft.DBforPostgreSQL/flexibleServers",
+                "region": "northeurope",
+                "resourceGroup": "Inzynierka",
+                "resourceName": "inz-postgres",
+                "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+              }
+            ],
+            "timeGrain": "auto"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "bf53c5yov0074f"
+          },
+          "hide": false,
+          "queryType": "Azure Monitor",
+          "refId": "B",
+          "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+        }
+      ],
+      "title": "NETWORK ",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "default": false,
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "bf53c5yov0074f"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 23
+      },
+      "id": 8,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "min",
+            "max",
+            "mean"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "azureMonitor": {
+            "aggregation": "Maximum",
+            "alias": "database size {{databasename}}",
+            "allowedTimeGrainsMs": [
+              1800000,
+              3600000,
+              21600000,
+              43200000,
+              86400000
+            ],
+            "dimensionFilters": [
+              {
+                "dimension": "DatabaseName",
+                "filters": [],
+                "operator": "eq"
+              }
+            ],
+            "metricName": "database_size_bytes",
+            "metricNamespace": "microsoft.dbforpostgresql/flexibleservers",
+            "region": "northeurope",
+            "resources": [
+              {
+                "metricNamespace": "Microsoft.DBforPostgreSQL/flexibleServers",
+                "region": "northeurope",
+                "resourceGroup": "Inzynierka",
+                "resourceName": "inz-postgres",
+                "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+              }
+            ],
+            "timeGrain": "auto"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "bf53c5yov0074f"
+          },
+          "hide": false,
+          "queryType": "Azure Monitor",
+          "refId": "B",
+          "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+        }
+      ],
+      "title": "DATABASE SIZE by name",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "default": false,
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "bf53c5yov0074f"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 23
+      },
+      "id": 5,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "min",
+            "max",
+            "mean"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "azureMonitor": {
+            "aggregation": "Total",
+            "alias": "Session by state {{state}}",
+            "allowedTimeGrainsMs": [
+              60000,
+              300000,
+              900000,
+              1800000,
+              3600000,
+              21600000,
+              43200000,
+              86400000
+            ],
+            "customNamespace": "microsoft.dbforpostgresql/flexibleservers",
+            "dimensionFilters": [
+              {
+                "dimension": "State",
+                "filters": [],
+                "operator": "eq"
+              }
+            ],
+            "metricName": "sessions_by_state",
+            "metricNamespace": "microsoft.dbforpostgresql/flexibleservers",
+            "region": "northeurope",
+            "resources": [
+              {
+                "metricNamespace": "Microsoft.DBforPostgreSQL/flexibleServers",
+                "region": "northeurope",
+                "resourceGroup": "Inzynierka",
+                "resourceName": "inz-postgres",
+                "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+              }
+            ],
+            "timeGrain": "auto"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "bf53c5yov0074f"
+          },
+          "queryType": "Azure Monitor",
+          "refId": "A",
+          "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+        }
+      ],
+      "title": "SESSIONS by state",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "default": false,
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "bf53c5yov0074f"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "Active Connections inz-postgres"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": true
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 31
+      },
+      "id": 11,
+      "options": {
+        "legend": {
+          "calcs": [
+            "last",
+            "min",
+            "max",
+            "mean"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "azureMonitor": {
+            "aggregation": "Average",
+            "allowedTimeGrainsMs": [
+              60000,
+              300000,
+              900000,
+              1800000,
+              3600000,
+              21600000,
+              43200000,
+              86400000
+            ],
+            "dimensionFilters": [],
+            "metricName": "active_connections",
+            "metricNamespace": "microsoft.dbforpostgresql/flexibleservers",
+            "region": "northeurope",
+            "resources": [
+              {
+                "metricNamespace": "Microsoft.DBforPostgreSQL/flexibleServers",
+                "region": "northeurope",
+                "resourceGroup": "Inzynierka",
+                "resourceName": "inz-postgres",
+                "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+              }
+            ],
+            "timeGrain": "auto"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "bf53c5yov0074f"
+          },
+          "queryType": "Azure Monitor",
+          "refId": "A",
+          "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+        },
+        {
+          "azureMonitor": {
+            "aggregation": "Total",
+            "allowedTimeGrainsMs": [
+              60000,
+              300000,
+              900000,
+              1800000,
+              3600000,
+              21600000,
+              43200000,
+              86400000
+            ],
+            "dimensionFilters": [],
+            "metricName": "connections_failed",
+            "metricNamespace": "microsoft.dbforpostgresql/flexibleservers",
+            "region": "northeurope",
+            "resources": [
+              {
+                "metricNamespace": "Microsoft.DBforPostgreSQL/flexibleServers",
+                "region": "northeurope",
+                "resourceGroup": "Inzynierka",
+                "resourceName": "inz-postgres",
+                "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+              }
+            ],
+            "timeGrain": "auto"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "bf53c5yov0074f"
+          },
+          "hide": false,
+          "queryType": "Azure Monitor",
+          "refId": "B",
+          "subscription": "dbb3dc1a-cb53-4add-a56f-c84e50cac7a1"
+        }
+      ],
+      "title": "CONNECTIONS INFO",
+      "type": "timeseries"
+    }
+  ],
+  "schemaVersion": 39,
+  "tags": [
+    "azure",
+    "db",
+    "stats",
+    "postgres"
+  ],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-30m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "PostgreSQL Database / Azure",
+  "uid": "ef54rplkpf1tsd",
+  "version": 18,
+  "weekStart": ""
+}

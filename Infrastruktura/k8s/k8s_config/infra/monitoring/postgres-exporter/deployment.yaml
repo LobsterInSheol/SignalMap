@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgresql-exporter
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgresql-exporter
+  template:
+    metadata:
+      labels:
+        app: postgresql-exporter
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        runAsGroup: 65534
+      containers:
+        - name: exporter
+          image: quay.io/prometheuscommunity/postgres-exporter:v0.15.0
+          ports:
+            - name: metrics
+              containerPort: 9187
+          command: ["/opt/bin/start.sh"]
+          volumeMounts:
+            - name: kv
+              mountPath: /app/kv
+              readOnly: true
+            - name: start-script
+              mountPath: /opt/bin/start.sh
+              subPath: start.sh
+              readOnly: true
+      volumes:
+        - name: kv
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: postgresql-metrics-secrets
+        - name: start-script
+          configMap:
+            name: postgresql-exporter-start
+            defaultMode: 0555

@@ -1,0 +1,78 @@
+trigger: none
+
+pool:
+  name: 'Win'
+# dane klastra
+variables:
+  RG_NAME:      'Inzynierka'
+  AKS_NAME:     'inzynierka-aks'
+  FLUX_VERSION: '2.3.0'    
+  HELM_VERSION: '3.15.3'   
+
+stages:
+- stage: BootstrapFluxAndHelm
+  jobs:
+  - job: FluxHelmInstall
+    steps:
+    - checkout: none
+
+    - task: AzureCLI@2
+      displayName: "Connect to existing AKS"
+      inputs:
+        azureSubscription: 'Azure-Inzynierka'
+        scriptType: ps
+        scriptLocation: inlineScript
+        inlineScript: |
+          az aks get-credentials -g "$(RG_NAME)" -n "$(AKS_NAME)" --overwrite-existing
+          kubectl cluster-info
+
+    - task: PowerShell@2
+      displayName: "Install Flux CLI + Helm CLI (Windows agent)"
+      inputs:
+        targetType: inline
+        script: |
+          $ErrorActionPreference = "Stop"
+          $bin = "$(Build.SourcesDirectory)\bin"
+          New-Item -ItemType Directory -Force -Path $bin | Out-Null
+
+          # --- Helm ---
+          $helmVersion = "$(HELM_VERSION)"
+          $helmZip = "$bin\helm-v$helmVersion-windows-amd64.zip"
+          Invoke-WebRequest -Uri "https://get.helm.sh/helm-v$helmVersion-windows-amd64.zip" -OutFile $helmZip
+          Expand-Archive -Path $helmZip -DestinationPath $bin -Force
+          Copy-Item "$bin\windows-amd64\helm.exe" "$bin\helm.exe" -Force
+
+          # --- Flux ---
+          $fluxVersion = "$(FLUX_VERSION)"
+          $fluxZip = "$bin\flux_{0}_windows_amd64.zip" -f $fluxVersion
+          Invoke-WebRequest -Uri "https://github.com/fluxcd/flux2/releases/download/v$fluxVersion/flux_{0}_windows_amd64.zip" -OutFile $fluxZip
+          Expand-Archive -Path $fluxZip -DestinationPath $bin -Force
+          Copy-Item "$bin\flux.exe" "$bin\flux.exe" -Force
+
+          # add to PATH for this job
+          $env:PATH = "$bin;$env:PATH"
+          Write-Host "Helm version:"; & "$bin\helm.exe" version
+          Write-Host "Flux version:"; & "$bin\flux.exe" --version
+
+    - task: PowerShell@2
+      displayName: "Install Flux into cluster (idempotent)"
+      inputs:
+        targetType: inline
+        script: |
+          $ErrorActionPreference = "Stop"
+          $bin = "$(Build.SourcesDirectory)\bin"
+          $env:PATH = "$bin;$env:PATH"
+
+          # Namespace, jeśli nie istnieje
+          kubectl get ns flux-system 2>$null | Out-Null
+          if ($LASTEXITCODE -ne 0) {
+            kubectl create namespace flux-system
+          }
+
+          # Instalacja/aktualizacja CRD i kontrolerów Flux
+          & "$bin\flux.exe" install --namespace flux-system
+
+          # Krótki healthcheck
+          & "$bin\flux.exe" check --pre
+          kubectl -n flux-system get deploy,po
+
